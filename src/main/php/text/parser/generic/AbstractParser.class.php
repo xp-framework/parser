@@ -1,15 +1,13 @@
-<?php namespace text\parser\generic;/* This file is part of the XP framework
- *
- * $Id$
- */
+<?php namespace text\parser\generic;
 
 use util\log\Traceable;
-
+use lang\Throwable;
+use lang\FormatException;
 
 /**
  * Abstract parser. Subclasses of this class are generated!
  *
- * @purpose   Base class
+ * @test   xp://text.parser.unittest.ParserTest
  */
 abstract class AbstractParser extends \lang\Object {
   const ERROR   = 0x0000;
@@ -22,7 +20,7 @@ abstract class AbstractParser extends \lang\Object {
       E_PARSE       => self::ERROR,
       E_WARNING     => self::WARNING,
     ),
-    $messages     = array();
+    $messages     = [];
   
   /**
    * Returns whether errors have occured
@@ -77,15 +75,12 @@ abstract class AbstractParser extends \lang\Object {
    * @param   string message
    * @param   string[] expected
    */
-  public function error($level, $message, $expected= array()) {
-    with ($m= new ParserMessage(
-      $level, 
-      $message,
-      $expected
-    )); {
-      $this->messages[$this->levels[$level]][]= $m;
-      $this->cat && $this->cat->info($m);
-    }
+  public function error($level, $message, $expected= []) {
+    $m= new ParserMessage($level, $message, $expected);
+
+    $this->messages[$this->levels[$level]][]= $m;
+    $this->cat && $this->cat->info($m);
+
     return false;
   }
 
@@ -107,19 +102,19 @@ abstract class AbstractParser extends \lang\Object {
    */
   public function parse(AbstractLexer $lexer) {
     $this->messages= array(
-      self::ERROR   => array(),
-      self::WARNING => array(),
+      self::ERROR   => [],
+      self::WARNING => [],
     );
 
     try {
       $result= $this->yyparse($lexer);
-    } catch (\lang\Throwable $e) {
+    } catch (Throwable $e) {
       throw new ParseException($e->getMessage(), $e);
     }
     
     if (!empty($this->messages[self::ERROR])) {
       $p= new ParseException(sizeof($this->messages[self::ERROR]).' parse error(s) occurred.', null, $this->messages[self::ERROR]);
-      $p->setCause(new \lang\FormatException("[\n".$p->formattedErrors().']'));
+      $p->setCause(new FormatException("[\n".$p->formattedErrors().']'));
       throw $p;
     }
     
@@ -131,7 +126,7 @@ abstract class AbstractParser extends \lang\Object {
    * currently with fixed maximum size.
    *
    * @param   text.parser.generic.AbstractLexer lexer
-.    * @return  var result of the last reduction, if any.
+   * @return  var result of the last reduction, if any.
    */
   public abstract function yyparse($lexer);
   
