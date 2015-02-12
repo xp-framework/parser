@@ -3,6 +3,10 @@ Generic parser API for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.0.1 / 2015-02-12
+
+* Changed dependency to use XP ~6.0 (instead of dev-master) - @thekid
+
 ## 6.0.0 / 2015-10-01
 
 * Added test suite - (@thekid)
