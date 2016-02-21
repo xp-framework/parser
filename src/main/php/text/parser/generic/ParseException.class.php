@@ -82,7 +82,7 @@ class ParseException extends \lang\XPException {
   public function compoundMessage() {
     return sprintf(
       "Exception %s (%s)\n%s",
-      $this->getClassName(),
+      nameof($this),
       $this->message,
       $this->formattedErrors()
     );

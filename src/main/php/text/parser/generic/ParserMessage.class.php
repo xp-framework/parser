@@ -32,7 +32,7 @@ class ParserMessage extends \lang\Object {
   public function toString() {
     return sprintf(
       '%s(%d: %s%s)',
-      $this->getClassName(),
+      nameof($this),
       $this->code,
       $this->message,
       $this->expected ? ', expected one of ['.implode(', ', $this->expected).']' : ''
