@@ -5,6 +5,7 @@ Generic parser API for XP Framework ChangeLog
 
 ## 7.0.0 / 2016-02-21
 
+* **Adopted semantic versioning. See xp-framework/rfc#300** - @thekid 
 * Added version compatibility with XP 7 - @thekid
 * **Heads up: Dropped PHP 5.4 support**. *Note: As the main source is not
   touched, unofficial PHP 5.4 support is still available though not tested
